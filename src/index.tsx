@@ -1,19 +1,56 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, {useState} from "react";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+type samuraiType = {
+    id: string
+    name: string
+    status: "online" | "offline"
+}
+type CourseNameType = "HTML"|"JS"|"React"|"Redux"|"HomeWorks"
+type CourseType = {
+    name: CourseNameType
+    mentor: string
+    isDone: boolean
+}
+type TechnologiesType = {
+    [userID: string]: Array<CourseType>
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const samuraiID_1 = "64jf-87kg"
+const samuraiID_2 = "90lg-34ks"
+const samuraiID_3 = "12jm-05fd"
+
+export const samurai: Array<samuraiType> = [
+    {id: samuraiID_1, name: "Bob", status: "online"},
+    {id: samuraiID_2, name: "Alex", status: "offline"},
+    {id: samuraiID_3, name: "Ann", status: "offline"},
+]
+
+export const technologies: TechnologiesType = {
+    [samuraiID_1]: [
+        {name: "HTML", mentor: "Svetlana", isDone: true},
+        {name: "JS", mentor: "Viktor", isDone: true},
+        {name: "React", mentor: "Dmitrij", isDone: false},
+        {name: "Redux", mentor: "Valera", isDone: false},
+        {name: "HomeWorks", mentor: "Ignat", isDone: true},
+    ],
+    [samuraiID_2]: [
+        {name: "HTML", mentor: "Svetlana", isDone: true},
+        {name: "JS", mentor: "Viktor", isDone: true},
+        {name: "React", mentor: "Dmitrij", isDone: true},
+        {name: "Redux", mentor: "Valera", isDone: false},
+        {name: "HomeWorks", mentor: "Ignat", isDone: true},
+    ],
+    [samuraiID_3]: [
+        {name: "HTML", mentor: "Svetlana", isDone: true},
+        {name: "JS", mentor: "Viktor", isDone: true},
+        {name: "React", mentor: "Dmitrij", isDone: false},
+        {name: "Redux", mentor: "Valera", isDone: false},
+        {name: "HomeWorks", mentor: "Ignat", isDone: false},
+    ],
+}
+
+export const updateCourseStatus = (samuraiID: string, name: CourseNameType, isDone: boolean) => {
+    return {...technologies,
+        [samuraiID]: technologies[samuraiID].map(c => c.name === name ? {...c, isDone} : c)
+    }
+}
